@@ -1,0 +1,81 @@
+베이스라인(최빈 클러스터 항상 예측): 0.307
+5문항(TV/포털/동영상/숏폼/메신저): CV 정확도 d4=0.905 d5=0.920 d6=0.924 d7=0.924 d8=0.924  → best depth=6
+6문항(+공유경험): CV 정확도 d4=0.908 d5=0.924 d6=0.927 d7=0.927 d8=0.927  → best depth=6
+7문항(+SNS): CV 정확도 d4=0.908 d5=0.924 d6=0.928 d7=0.928 d8=0.928  → best depth=6
+8문항(+댓글): CV 정확도 d4=0.914 d5=0.923 d6=0.935 d7=0.935 d8=0.935  → best depth=7
+
+[최종] 8문항(+댓글), depth=7, 5-fold CV 정확도 = 0.935
+클래스: {0: '포털 텍스트파', 1: 'TV 순정파', 2: '본방+포털 투트랙', 3: '단톡방 전파자', 4: '영상 뉴스 대식가', 5: '뉴스 미니멀족'}
+|--- d_portal <= 2.50
+|   |--- d_tv <= 3.50
+|   |   |--- d_shortform <= 2.50
+|   |   |   |--- d_messenger <= 0.50
+|   |   |   |   |--- d_video <= 1.50
+|   |   |   |   |   |--- class: 5
+|   |   |   |   |--- d_video >  1.50
+|   |   |   |   |   |--- class: 5
+|   |   |   |--- d_messenger >  0.50
+|   |   |   |   |--- class: 5
+|   |   |--- d_shortform >  2.50
+|   |   |   |--- class: 5
+|   |--- d_tv >  3.50
+|   |   |--- d_video <= 4.50
+|   |   |   |--- p_share <= 0.50
+|   |   |   |   |--- d_messenger <= 0.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- d_messenger >  0.50
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- p_share >  0.50
+|   |   |   |   |--- class: 1
+|   |   |--- d_video >  4.50
+|   |   |   |--- class: 4
+|--- d_portal >  2.50
+|   |--- d_tv <= 3.50
+|   |   |--- d_portal <= 3.50
+|   |   |   |--- p_share <= 0.50
+|   |   |   |   |--- d_video <= 1.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- d_video >  1.50
+|   |   |   |   |   |--- class: 5
+|   |   |   |--- p_share >  0.50
+|   |   |   |   |--- p_comment <= 0.50
+|   |   |   |   |   |--- class: 5
+|   |   |   |   |--- p_comment >  0.50
+|   |   |   |   |   |--- class: 3
+|   |   |--- d_portal >  3.50
+|   |   |   |--- p_share <= 0.50
+|   |   |   |   |--- d_video <= 4.50
+|   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- d_video >  4.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |--- p_share >  0.50
+|   |   |   |   |--- p_comment <= 0.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- p_comment >  0.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |--- d_tv >  3.50
+|   |   |--- d_video <= 3.50
+|   |   |   |--- p_comment <= 0.50
+|   |   |   |   |--- d_shortform <= 2.50
+|   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- d_shortform >  2.50
+|   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |--- p_comment >  0.50
+|   |   |   |   |--- p_share <= 0.50
+|   |   |   |   |   |--- class: 2
+|   |   |   |   |--- p_share >  0.50
+|   |   |   |   |   |--- class: 3
+|   |   |--- d_video >  3.50
+|   |   |   |--- d_video <= 4.50
+|   |   |   |   |--- d_shortform <= 0.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- d_shortform >  0.50
+|   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |--- d_video >  4.50
+|   |   |   |   |--- p_comment <= 0.50
+|   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- p_comment >  0.50
+|   |   |   |   |   |--- class: 4
+
+
+참고: 6문항 + depth=4 (분기 최대 4번) 단순 규칙 정확도 = 0.906

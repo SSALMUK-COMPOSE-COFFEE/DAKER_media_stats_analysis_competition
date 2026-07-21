@@ -1,0 +1,18 @@
+/data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Vite
+node_modules/
+dist/
+.vite/
+*.local
+
+# macOS / IDE
+.DS_Store
+.idea/
+.vscode/
