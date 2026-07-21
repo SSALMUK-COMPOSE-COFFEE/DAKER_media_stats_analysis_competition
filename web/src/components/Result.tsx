@@ -32,7 +32,7 @@ export default function Result({ result, onRestart }: Props) {
   }
 
   const share = async () => {
-    const url = `${window.location.origin}/r/${t.id}/`
+    const url = `${window.location.origin}${import.meta.env.BASE_URL}r/${t.id}/`
     const text = `나의 뉴스 DNA는 ${t.emoji} ${t.name} (국민의 ${t.pct}%)! 너는 어떤 유형이야?`
     if (navigator.share) {
       try {

@@ -1,7 +1,9 @@
-# 개발:  docker compose up dev    → http://localhost:5173 (HMR)
-# 배포판 확인: docker compose up web → http://localhost:8080
+# 배포:  docker compose up -d --build          → prod만 기동 (127.0.0.1:18084)
+# 개발:  docker compose --profile local up dev  → http://localhost:5173 (HMR)
+# 배포판 로컬 확인: docker compose --profile local up web → http://localhost:8081
 services:
   dev:
+    profiles: ["local"]
     image: node:22-alpine
     working_dir: /app
     volumes:
@@ -13,12 +15,27 @@ services:
       - "5173:5173"
 
   web:
+    profiles: ["local"]
     build:
       context: .
       args:
         SITE_URL: ${SITE_URL:-}
+    # 8080은 호스트의 onyo_dashboard가 사용 중이라 8081
     ports:
-      - "8080:80"
+      - "8081:80"
+
+  # 실배포: https://hajin.xyz/media-stats-analysis-competition/
+  # 호스트 nginx가 /media-stats-analysis-competition/ → 127.0.0.1:18084 로 프록시 (URI 그대로)
+  prod:
+    build:
+      context: .
+      args:
+        SITE_URL: https://hajin.xyz/media-stats-analysis-competition
+        BASE_PATH: /media-stats-analysis-competition/
+    container_name: media-stats-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:18084:80"
 
 volumes:
   node_modules:

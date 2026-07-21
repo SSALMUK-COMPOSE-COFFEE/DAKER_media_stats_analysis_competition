@@ -36,7 +36,7 @@ export default function App() {
   }
 
   const restart = () => {
-    history.replaceState(null, '', '/')
+    history.replaceState(null, '', import.meta.env.BASE_URL)
     setResult(null)
     setScreen('quiz')
     window.scrollTo(0, 0)
